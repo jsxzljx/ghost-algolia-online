@@ -8,7 +8,7 @@ exports.handler = (event, context, callback) => {
     apiKey: process.env.ALGOLIA_API_KEY,
     index: process.env.ALGOLIA_INDEX,
   };
-
+  console.log(event);
   const post = JSON.parse(event.body).post.current;
   const index = indexFactory(algoliaSettings);
 
@@ -24,5 +24,6 @@ exports.handler = (event, context, callback) => {
       .catch((err) => {
         callback(err);
       });
+    console.log(index);
   }
 };
