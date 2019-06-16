@@ -4,7 +4,7 @@ import slug from 'slug';
 import { isHeading, getHeadingLevel } from './utils';
 
 // add func splitContent @jsxzljx
-function splitContent(str){
+var splitContent = (str) => {
   var bytesCount = 0;
   var res = new Array();
   for (var i = 0, p = 0; i < str.length; i++) {
@@ -37,9 +37,7 @@ const parserFactory = () => ({
       // can that be true even with an empty doc?
       // Set first hypothetical headless fragment attributes.
       if (!isHeading(nodes[0])) {
-        fragment.id = post.slug;
         // we give a higher importance to the intro (the first headless fragment)
-        // add url @jsxzljx
         fragment.url = post.slug;
         fragment.importance = 0;
         fragment.post_uuid = post.uuid;
@@ -49,34 +47,29 @@ const parserFactory = () => ({
 
       nodes.forEach((node) => {
         if (isHeading(node)) {
+          console.log("node ==>");
+          console.log(node);
           // Send previous fragment
-          //split content @ jsxzljx
-          //index.addFragment(fragment);
           if (fragment.content != undefined){
-            var splited = splitContent(fragment.content)
-            for (var i in splited) {
+            let splited = splitContent(fragment.content)
+            for (let i of splited) {
                   fragment.content = splited[i];
                   headingCount += 1;
-                  // modify the id format here @jsxzljx
-                  fragment.id = post.slug + '#slice-' + headingCount;
-                  // add unique objectID for overwriting  @jsxzljx
                   fragment.objectID = post.slug + '#slice-' + headingCount;
-                  index.addFragment(JSON.parse(JSON.stringify(fragment)));
+                  index.addFragment(JSON.parse(JSON.stringify(fragment))); // add a copy
             }
           }
           fragment = {};
-          headingCount += 1;
           fragment.heading = node.childNodes[0].value;
-          // add url @jsxzljx
           fragment.url = `${post.slug}#${slug(fragment.heading, { lower: true })}`;
-          // modify the id format here @jsxzljx
-          //fragment.id = post.slug + '#slice-' + headingCount;
           fragment.importance = getHeadingLevel(node.nodeName);
           fragment.post_uuid = post.uuid;
           fragment.post_title = post.title;
           fragment.post_published_at = post.published_at;
         } else {
-          if (fragment.content === undefined) fragment.content = '';
+          if (fragment.content === undefined) {
+            fragment.content = '';
+          }
           // If node not a heading, then it is a text node and always has a value property
           fragment.content += `${node.value} `;
         }
@@ -84,16 +77,11 @@ const parserFactory = () => ({
 
       // Saving the last fragment (as saving only happens as a new heading
       // is found). This also takes care of heading-less articles.
-      //split content @ jsxzljx
-      //index.addFragment(fragment);
       if (fragment.content != undefined){
-        var splited = splitContent(fragment.content)
-        for (var i in splited) {
+        let splited = splitContent(fragment.content)
+        for (var i of splited) {
               fragment.content = splited[i];
               headingCount += 1;
-              // modify the id format here @jsxzljx
-              fragment.id = post.slug + '#slice-' + headingCount;
-              // add unique objectID for overwriting  @jsxzljx
               fragment.objectID = post.slug + '#slice-' + headingCount;
               index.addFragment(JSON.parse(JSON.stringify(fragment)));
         }
