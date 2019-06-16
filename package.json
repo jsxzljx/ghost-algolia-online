@@ -1,22 +1,22 @@
 {
-  "name": "ghost-algolia",
-  "version": "3.1.0",
+  "name": "ghost-algolia-online",
+  "version": "3.1.1",
   "description": "Provides integration between Ghost (CMS) and Algolia (search as a service)",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mlbrgl/ghost-algolia.git"
+    "url": "git+https://github.com/jsxzljx/ghost-algolia-online.git"
   },
   "keywords": [
     "ghost",
     "algolia"
   ],
-  "author": "Matthieu Bergel <hello@matthieubergel.org> (https://www.matthieubergel.org)",
+  "author": "Matthieu Bergel <hello@matthieubergel.org> (https://www.matthieubergel.org), jsxzljx",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mlbrgl/ghost-algolia/issues"
+    "url": "https://github.com/jsxzljx/ghost-algolia-online/issues"
   },
-  "homepage": "https://github.com/mlbrgl/ghost-algolia#readme",
+  "homepage": "https://github.com/jsxzljx/ghost-algolia-online#readme",
   "dependencies": {
     "algoliasearch": "^3.32.1",
     "parse5": "^5.1.0",

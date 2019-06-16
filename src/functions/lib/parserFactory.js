@@ -1,28 +1,7 @@
 import { parseFragment } from 'parse5';
 import striptags from 'striptags';
 import slug from 'slug';
-import { isHeading, getHeadingLevel } from './utils';
-
-// add func splitContent @jsxzljx
-var splitContent = (str) => {
-  var bytesCount = 0;
-  var res = new Array();
-  for (var i = 0, p = 0; i < str.length; i++) {
-        var c = str.charAt(i);
-        if (/^[\u0000-\u00ff]$/.test(c)) {
-              bytesCount += 1;
-        }
-        else {
-              bytesCount += 2;
-        }
-        if (bytesCount > 5000 || i == (str.length - 1)){
-              res.push(str.slice(p, i) + "\n");
-              p = i;
-              bytesCount = 0;
-        }
-  }
-  return res;
-}
+import { isHeading, getHeadingLevel, getHeadingID, splitContent } from './utils';
 
 const parserFactory = () => ({
   // Returns the number of fragments successfully parsed
@@ -47,21 +26,20 @@ const parserFactory = () => ({
 
       nodes.forEach((node) => {
         if (isHeading(node)) {
-          console.log("node ==>");
-          console.log(node);
           // Send previous fragment
           if (fragment.content != undefined){
             let splited = splitContent(fragment.content)
             for (let i of splited) {
                   fragment.content = splited[i];
                   headingCount += 1;
-                  fragment.objectID = post.slug + '#slice-' + headingCount;
+                  fragment.objectID = post.slug + '#slice-' + headingCount; // unique identifier
                   index.addFragment(JSON.parse(JSON.stringify(fragment))); // add a copy
             }
           }
+          let head_id = getHeadingID(node);
           fragment = {};
           fragment.heading = node.childNodes[0].value;
-          fragment.url = `${post.slug}#${slug(fragment.heading, { lower: true })}`;
+          fragment.url = `${post.slug}#${head_id}`;
           fragment.importance = getHeadingLevel(node.nodeName);
           fragment.post_uuid = post.uuid;
           fragment.post_title = post.title;
