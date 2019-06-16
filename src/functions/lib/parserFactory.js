@@ -1,13 +1,12 @@
 import { parseFragment } from 'parse5';
 import striptags from 'striptags';
-import slug from 'slug';
 import { isHeading, getHeadingLevel, getHeadingID, splitContent } from './utils';
 
 const parserFactory = () => ({
   // Returns the number of fragments successfully parsed
   parse(post, index) {
     let fragment = {};
-    let headingCount = 0;
+    let sliceCount = 0;
 
     const cleanhtml = striptags(post.html, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']);
     const nodes = parseFragment(cleanhtml).childNodes;
@@ -27,13 +26,13 @@ const parserFactory = () => ({
       nodes.forEach((node) => {
         if (isHeading(node)) {
           // Send previous fragment
-          if (fragment.content != undefined){
-            let splited = splitContent(fragment.content)
-            for (let i of splited) {
-                  fragment.content = splited[i];
-                  headingCount += 1;
-                  fragment.objectID = post.slug + '#slice-' + headingCount; // unique identifier
-                  index.addFragment(JSON.parse(JSON.stringify(fragment))); // add a copy
+          if (fragment.content != undefined) {
+            let splited = splitContent(fragment.content);
+            for (let content of splited) {
+              fragment.content = content;
+              sliceCount += 1;
+              fragment.objectID = post.slug + '#slice-' + sliceCount; // unique identifier
+              index.addFragment(JSON.parse(JSON.stringify(fragment))); // add a copy
             }
           }
           let head_id = getHeadingID(node);
@@ -55,13 +54,13 @@ const parserFactory = () => ({
 
       // Saving the last fragment (as saving only happens as a new heading
       // is found). This also takes care of heading-less articles.
-      if (fragment.content != undefined){
+      if (fragment.content != undefined) {
         let splited = splitContent(fragment.content)
-        for (var i of splited) {
-              fragment.content = splited[i];
-              headingCount += 1;
-              fragment.objectID = post.slug + '#slice-' + headingCount;
-              index.addFragment(JSON.parse(JSON.stringify(fragment)));
+        for (let content of splited) {
+          fragment.content = content;
+          sliceCount += 1;
+          fragment.objectID = post.slug + '#slice-' + sliceCount;
+          index.addFragment(JSON.parse(JSON.stringify(fragment)));
         }
       }
     }

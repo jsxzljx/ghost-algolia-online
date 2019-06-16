@@ -8,17 +8,17 @@ export const splitContent = str => {
     var res = new Array();
     for (let i = 0, p = 0; i < str.length; i++) {
         let c = str.charAt(i);
-          if (/^[\u0000-\u00ff]$/.test(c)) {
-                bytesCount += 1;
-          }
-          else {
-                bytesCount += 2;
-          }
-          if (bytesCount > 5000 || i == (str.length - 1)){
-                res.push(str.slice(p, i) + "\n");
-                p = i;
-                bytesCount = 0;
-          }
+        if (/^[\u0000-\u00ff]$/.test(c)) {
+            bytesCount += 1;
+        }
+        else {
+            bytesCount += 2;
+        }
+        if (bytesCount > 5000 || i == (str.length - 1)) {
+            res.push(str.slice(p, i + 1) + "\n");
+            p = i + 1;
+            bytesCount = 0;
+        }
     }
     return res;
-  }
+}

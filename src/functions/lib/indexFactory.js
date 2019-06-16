@@ -32,7 +32,6 @@ const indexFactory = (algoliaSettings) => {
     save() {
       return index.addObjects(fragments);
     },
-    // TODO
     delete(uuid) {
       return index.deleteBy({
         filters: `post_uuid:${uuid}`,

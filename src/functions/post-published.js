@@ -8,7 +8,6 @@ exports.handler = (event, context, callback) => {
     apiKey: process.env.ALGOLIA_API_KEY,
     index: process.env.ALGOLIA_INDEX,
   };
-  console.log(event);
   const post = JSON.parse(event.body).post.current; // post: current version of post
   const index = indexFactory(algoliaSettings);
 
@@ -33,7 +32,7 @@ exports.handler = (event, context, callback) => {
     }
   }
   else if (Object.keys(post).length > 0) {
-    //unpublish a post
+    // unpublish a post
     console.log(post.uuid);
     if (index.connect()) {
       index
