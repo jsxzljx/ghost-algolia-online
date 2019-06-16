@@ -18,7 +18,7 @@ const indexFactory = (algoliaSettings) => {
         );
         return false;
       }
-      console.log('Algolia indexing deactivated.');
+      console.log('Fail to connenct Algolia.');
       return false;
     },
     addFragment(fragment) {
@@ -32,10 +32,9 @@ const indexFactory = (algoliaSettings) => {
     save() {
       return index.addObjects(fragments);
     },
-    // TODO
-    delete(post) {
-      return index.deleteByQuery(post.attributes.uuid, {
-        restrictSearchableAttributes: 'post_uuid',
+    delete(uuid) {
+      return index.deleteBy({
+        filters: `post_uuid:${uuid}`,
       });
     },
     getFragments() {
