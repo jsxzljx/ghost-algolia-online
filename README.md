@@ -74,11 +74,11 @@ npm install netlify-cli -g
 git clone https://github.com/jsxzljx/ghost-algolia-online.git
 cd ghost-algolia-online
 npm install
-vim src/functions/post-published.js  # manually add your algolia ID and key here
+vim src/functions/update-post.js  # manually add your algolia ID and key here
 npm run serve > algolia.log 2>&1 & # run in background
 ```
 
-4. On Ghost's admin panel, create a new custom integration and the following webhook: Name: Post published, Event: Post published, target URL: the endpoint of the post-published function, found on Netlify's admin panel `https://YOUR-SITE-ID.netlify.com/.netlify/functions/update-post`. If you deploy locally, the URL is `http://localhost:9000/update.post` by default.
+4. On Ghost's admin panel, create a new custom integration and the following webhook: Name: Post published, Event: Post published, target URL: the endpoint of the post-published function, found on Netlify's admin panel `https://YOUR-SITE-ID.netlify.com/.netlify/functions/update-post`. If you deploy locally, the URL is `http://localhost:9000/update-post` by default.
 
 # Usage
 
