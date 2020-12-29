@@ -31,7 +31,7 @@
     "netlify-lambda": "^1.4.3"
   },
   "scripts": {
-    "serve": "netlify-lambda serve --config ./webpack.functions.js src/functions ",
+    "serve": "netlify-lambda serve --config ./webpack.functions.js src/functions --port 9000",
     "build": "mkdir -p build/site && netlify-lambda build src/functions"
   }
 }
